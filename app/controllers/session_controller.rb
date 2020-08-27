@@ -13,7 +13,7 @@ class SessionController < ApplicationController
       end
     
       def destroy
-        session.delete("user_id")
-        redirect_to root_path
+        reset_session
+        redirect_to '/'
       end
 end
