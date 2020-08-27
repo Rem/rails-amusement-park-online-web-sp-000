@@ -4,8 +4,8 @@ Rails.application.routes.draw do
 
   root 'static#home'
 
-  get 'signin', to: 'session#new'
-  post 'signin', to: 'session#create'
-  
+  get '/signin', to: 'session#new', as: 'signin'
+  post '/session', to: 'session#create', as: 'session'
+
   resources :users
 end
