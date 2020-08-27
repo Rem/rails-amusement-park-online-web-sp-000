@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   root 'static#home'
 
-  get '/users/new', to: 'users#new'
-  get '/users', to:'users#index'
-  post '/users', to:'users#create'
+  get 'signin', to: 'session#new'
+  post 'signin', to: 'session#create'
+  
+  resources :users
 end
