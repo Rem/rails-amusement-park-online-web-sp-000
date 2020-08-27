@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'signin', to: 'session#new'
   post 'signin', to: 'session#create'
 
+  get 'logout', to: 'session#destroy'
+
 
   resources :users
 end
