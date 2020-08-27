@@ -10,14 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_231010) do
+ActiveRecord::Schema.define(version: 2020_08_27_002652) do
+
+  create_table "attractions", force: :cascade do |t|
+    t.string "name"
+    t.integer "tickets"
+    t.integer "nausea_rating"
+    t.integer "happiness_rating"
+    t.integer "min_height"
+  end
+
+  create_table "rides", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "attraction_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.integer "height"
     t.integer "nausea"
-    t.integer "ticket"
-    t.boolean "admin"
+    t.integer "tickets"
+    t.boolean "admin", default: false
     t.string "password_digest"
     t.integer "happiness"
   end
