@@ -1,38 +1,39 @@
 class Ride < ActiveRecord::Base
     belongs_to :user
     belongs_to :attraction
+
     def take_ride
-        user_has_enough_tickets, user_is_tall_enough = user_meets_requirements
-        if user_has_enough_tickets && user_is_tall_enough
+        ticket_check, height_check = meets_requirements
+        if ticket_check && height_check
           start_ride
-        elsif user_is_tall_enough && !user_has_enough_tickets
+        elsif !ticket_check && height_check
           "Sorry. " + not_enough_tickets
-        elsif !user_is_tall_enough && user_has_enough_tickets
+        elsif ticket_check && !height_check
           "Sorry. " + not_tall_enough
-        elsif !user_is_tall_enough && !user_has_enough_tickets
+        elsif !ticket_check && !height_check
           "Sorry. " + not_enough_tickets + " " + not_tall_enough
         end
       end
     
-      def user_meets_requirements
-        user_has_enough_tickets, user_is_tall_enough = false
+      def meets_requirements
+        ticket_check, height_check = false
         if self.user.tickets >= self.attraction.tickets
-          user_has_enough_tickets = true
+          ticket_check = true
         end
         if self.user.height >= self.attraction.min_height
-          user_is_tall_enough = true
+          height_check = true
         end
-        return [user_has_enough_tickets, user_is_tall_enough]
+        return [ticket_check, height_check]
       end
     
       def start_ride
         new_happiness = self.user.happiness + self.attraction.happiness_rating
         new_nausea = self.user.nausea + self.attraction.nausea_rating
-        new_ticket_count = self.user.tickets - self.attraction.tickets
+        new_ticket = self.user.tickets - self.attraction.tickets
         self.user.update(
           :happiness => new_happiness,
           :nausea => new_nausea,
-          :tickets => new_ticket_count
+          :tickets => new_ticket
         )
         "Thanks for riding the #{self.attraction.name}!"
       end
